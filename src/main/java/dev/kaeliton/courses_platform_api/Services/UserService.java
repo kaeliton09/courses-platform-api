@@ -3,6 +3,7 @@ package dev.kaeliton.courses_platform_api.Services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import dev.kaeliton.courses_platform_api.DTOs.UserDTO;
@@ -16,10 +17,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMappper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserMappper userMapper) {
+    public UserService(UserRepository userRepository, UserMappper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder; 
     }
 
 
@@ -40,6 +43,7 @@ public class UserService {
     //criar usuário
     public UserDTO criarUsuario(UserDTO userDTO) {
         UserModel userModel = userMapper.toModel(userDTO);
+        userModel.setSenha(passwordEncoder.encode(userModel.getSenha()));
         UserModel usuarioSalvo = userRepository.save(userModel);
         return userMapper.toDTO(usuarioSalvo);
     }
@@ -56,7 +60,7 @@ public class UserService {
             usuarioExistente.setId(id);
             usuarioExistente.setNome(userDTO.getNome());
             usuarioExistente.setEmail(userDTO.getEmail());
-            usuarioExistente.setSenha(userDTO.getSenha());
+            usuarioExistente.setSenha(passwordEncoder.encode(userDTO.getSenha()));
             UserModel usuarioAtualizado = userRepository.save(usuarioExistente);
             return userMapper.toDTO(usuarioAtualizado);
         }
