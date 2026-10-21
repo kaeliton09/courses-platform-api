@@ -58,10 +58,6 @@ O projeto também inclui dependências relacionadas a criptografia do Spring Sec
    .\mvnw.cmd test
    ```
 
-## Estrutura e funcionalidades
-
-Consulte o código-fonte para verificar os recursos implementados, os endpoints disponíveis e a configuração do banco de dados. Atualize esta seção conforme as funcionalidades forem concluídas.
-
 ## Repositório
 
 https://github.com/kaeliton09/courses-platform-api
